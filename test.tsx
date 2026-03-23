@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { CartProvider } from '@/app/context/CartContext';
 import StorePage from '@/app/components/StorePage';
 import type { Product } from '@/app/types';
+import { locales } from '@/app/config/locales';
 
 const mockProducts: Product[] = [
   { id: 1, name: { us: 'Wireless Headphones', uk: 'Wireless Headsets' }, price: { usd: 99.99, gbp: 76.99 }, stock: 45 },
@@ -11,7 +12,7 @@ const mockProducts: Product[] = [
 function renderStorePage() {
   return render(
     <CartProvider>
-      <StorePage products={mockProducts} />
+      <StorePage products={mockProducts} locale={locales.uk} />
     </CartProvider>
   );
 }

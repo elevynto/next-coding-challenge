@@ -1,8 +1,16 @@
-import StorePage from './components/StorePage';
-import { locales } from './config/locales';
-import type { ApiResponse } from './types';
+import { notFound } from 'next/navigation';
+import StorePage from '../components/StorePage';
+import { getLocale } from '../config/locales';
+import type { ApiResponse } from '../types';
 
-export default async function Home() {
+export default async function LocaleHome({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = getLocale(params.locale);
+  if (!locale) notFound();
+
   let data: ApiResponse | null = null;
 
   try {
@@ -26,5 +34,5 @@ export default async function Home() {
     );
   }
 
-  return <StorePage products={data.products} locale={locales.uk} />;
+  return <StorePage products={data.products} locale={locale} />;
 }

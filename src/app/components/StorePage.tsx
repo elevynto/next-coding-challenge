@@ -4,32 +4,47 @@ import Link from 'next/link';
 import styles from '../page.module.css';
 import { useCart } from '../context/CartContext';
 import type { Product, ApiResponse } from '../types';
-
-const formatGBP = (amount: number) =>
-  new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount);
+import type { LocaleConfig } from '../config/locales';
 
 const SKELETON_COUNT = 3;
 
+function formatPrice(amount: number, locale: LocaleConfig) {
+  return new Intl.NumberFormat(locale.localeCode, {
+    style: 'currency',
+    currency: locale.currency,
+  }).format(amount);
+}
+
 function ProductCard({
   product,
+  locale,
   onAdd,
 }: {
   product: Product;
+  locale: LocaleConfig;
   onAdd: (name: string, price: number) => void;
 }) {
+  const name = product.name[locale.nameKey];
+  const price = product.price[locale.priceKey];
   return (
     <button
       className={styles.card}
-      onClick={() => onAdd(product.name.uk, product.price.gbp)}
-      aria-label={`Add ${product.name.uk} to basket`}
+      onClick={() => onAdd(name, price)}
+      aria-label={`Add ${name} to ${locale.labels.addToLabel}`}
     >
-      <span className={styles.cardTitle}>{product.name.uk}</span>
-      <span className={styles.cardDescription}>{formatGBP(product.price.gbp)}</span>
+      <span className={styles.cardTitle}>{name}</span>
+      <span className={styles.cardDescription}>{formatPrice(price, locale)}</span>
     </button>
   );
 }
 
-export default function StorePage({ products }: { products: Product[] }) {
+export default function StorePage({
+  products,
+  locale,
+}: {
+  products: Product[];
+  locale: LocaleConfig;
+}) {
   const { items, addToCart } = useCart();
   const [moreProducts, setMoreProducts] = useState<Product[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
@@ -56,18 +71,20 @@ export default function StorePage({ products }: { products: Product[] }) {
     <>
       <header className={styles.header}>
         <h1 className={styles.storeName}>Michael&apos;s Amazing Web Store</h1>
-        <Link
-          href="/checkout"
-          className={styles.basketButton}
-        >
-          Basket: {items.length} {items.length === 1 ? 'item' : 'items'}
+        <Link href={locale.checkoutPath} className={styles.basketButton}>
+          {locale.labels.basket}: {items.length} {items.length === 1 ? 'item' : 'items'}
         </Link>
       </header>
       <main className={styles.main}>
         <section aria-label="Products">
           <div className={styles.grid}>
             {products.map(product => (
-              <ProductCard key={product.id} product={product} onAdd={addToCart} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                locale={locale}
+                onAdd={addToCart}
+              />
             ))}
           </div>
         </section>
@@ -82,7 +99,12 @@ export default function StorePage({ products }: { products: Product[] }) {
               : moreError
                 ? <p className={styles.loadError}>More products couldn&apos;t be loaded right now.</p>
                 : moreProducts.map(product => (
-                    <ProductCard key={product.id} product={product} onAdd={addToCart} />
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      locale={locale}
+                      onAdd={addToCart}
+                    />
                   ))
             }
           </div>

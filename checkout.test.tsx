@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { CartProvider } from '@/app/context/CartContext';
 import type { CartItem } from '@/app/context/CartContext';
-import CheckoutPage from '@/app/checkout/page';
+import CheckoutPage from '@/app/components/CheckoutPage';
+import { locales } from '@/app/config/locales';
 
 function renderCheckout(initialItems: CartItem[] = []) {
   return render(
     <CartProvider initialItems={initialItems}>
-      <CheckoutPage />
+      <CheckoutPage locale={locales.uk} />
     </CartProvider>
   );
 }
@@ -42,7 +43,6 @@ describe('CheckoutPage', () => {
       { name: 'Fitness Tracker', quantity: 1, price: 154.99 },
     ]);
 
-    // 2 + 1 = 3 total items
     expect(screen.getByText('3 items')).toBeInTheDocument();
   });
 });
