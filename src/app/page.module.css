@@ -116,8 +116,43 @@
 
 .cardDescription {
   font-size: 0.875rem;
-  color: #6b7280; /* 4.6:1 contrast on white — passes WCAG AA */
+  color: #6b7280;
   line-height: 1.5;
+}
+
+/* ============================================================
+   More products section
+   ============================================================ */
+
+.moreSection {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1.25rem;
+}
+
+.skeleton {
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  min-height: 96px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loadError {
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 /* ============================================================
@@ -169,7 +204,20 @@
   }
 
   .cardDescription {
-    color: #9ca3af; /* 5.8:1 contrast on #1f2937 — passes WCAG AA */
+    color: #9ca3af;
+  }
+
+  .moreSection {
+    border-top-color: #374151;
+  }
+
+  .sectionTitle {
+    color: #d1d5db;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background-size: 200% 100%;
   }
 }
 

@@ -7,6 +7,15 @@ const mockProducts: Product[] = [
   { id: 2, name: { us: 'Smart Watch', uk: 'Fitness Tracker' }, price: { usd: 199.99, gbp: 154.99 }, stock: 28 },
 ];
 
+beforeEach(() => {
+  // Prevent the more-products useEffect fetch from resolving during these cart tests
+  global.fetch = jest.fn().mockReturnValue(new Promise(() => {}));
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 describe('StorePage', () => {
   it('renders an empty basket', () => {
     render(<StorePage products={mockProducts} />);
