@@ -25,34 +25,41 @@ export default function Home() {
   };
 
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>Michael&apos;s Amazing Web Store</p>
-        <div>
-          <button className={styles.basket}>Basket: {items.length} {items.length === 1 ? 'item' : 'items'}</button>
-          {products.map(product => (
-            <ItemCount
-              key={product.name}
-              name={product.name}
-              count={items.find(item => item.name === product.name)?.quantity || 0}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        {products.map(product => (
-          <button
-            key={product.name}
-            className={styles.card}
-            onClick={() => addToCart(product.name)}
-            aria-label={`Add ${product.name} to basket`}
-          >
-            <h2>{product.name} <span>-&gt;</span></h2>
-            <p>{product.description}</p>
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.storeName}>Michael&apos;s Amazing Web Store</h1>
+        <div className={styles.basketArea}>
+          <button className={styles.basketButton}>
+            Basket: {items.length} {items.length === 1 ? 'item' : 'items'}
           </button>
-        ))}
-      </div>
-    </main>
+          {items.length > 0 && (
+            <ul className={styles.basketList}>
+              {items.map(item => (
+                <li key={item.name}>
+                  <ItemCount name={item.name} count={item.quantity} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </header>
+      <main className={styles.main}>
+        <section aria-label="Products">
+          <div className={styles.grid}>
+            {products.map(product => (
+              <button
+                key={product.name}
+                className={styles.card}
+                onClick={() => addToCart(product.name)}
+                aria-label={`Add ${product.name} to basket`}
+              >
+                <span className={styles.cardTitle}>{product.name}</span>
+                <span className={styles.cardDescription}>{product.description}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
