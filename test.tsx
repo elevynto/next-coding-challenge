@@ -1,48 +1,28 @@
-import { render, screen} from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Home from '@/app/page';
 
 describe('Home', () => {
-    it('renders an empty basket', () => {
-        render(<Home />);
+  it('renders an empty basket', () => {
+    render(<Home />);
 
-        const basketButton = screen.getByRole('button', {
-            name: /Basket:/i,
-        });
+    expect(screen.getByRole('button', { name: /Basket:/i })).toHaveTextContent('Basket: 0 items');
+  });
 
-        expect(basketButton).toHaveTextContent('Basket: 0 items');
-    });
+  it('renders a basket with 1 item after adding one product', () => {
+    render(<Home />);
 
-    it('renders a basket with 1 item', async () => {
-        render(<Home />);
+    fireEvent.click(screen.getByRole('button', { name: 'Add Item 1 to basket' }));
 
-        const buttons = screen.getAllByRole('button', {
-            name: /Add to basket/i,
-        });
+    expect(screen.getByRole('button', { name: /Basket:/i })).toHaveTextContent('Basket: 1 item');
+  });
 
-        await buttons[0].click();
+  it('renders a basket with 2 items after adding two different products', () => {
+    render(<Home />);
 
-        const basketButton = screen.getByRole('button', {
-            name: /Basket:/i,
-        });
+    fireEvent.click(screen.getByRole('button', { name: 'Add Item 1 to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add Item 2 to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add Item 2 to basket' }));
 
-        expect(basketButton).toHaveTextContent(/Basket: 1 item$/);
-    });
-
-    it('renders a basket with 1 of item 1 and 2 of item 2', async () => {
-        render(<Home />);
-
-        const buttons = screen.getAllByRole('button', {
-            name: /Add to basket/i,
-        });
-
-        await buttons[0].click();
-        await buttons[1].click();
-        await buttons[1].click();
-
-        const basketButton = screen.getByRole('button', {
-            name: /Basket:/i,
-        });
-
-        expect(basketButton).toHaveTextContent(/Basket: 2 items$/);
-    });
+    expect(screen.getByRole('button', { name: /Basket:/i })).toHaveTextContent('Basket: 2 items');
+  });
 });
