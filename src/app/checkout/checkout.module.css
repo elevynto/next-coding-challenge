@@ -1,0 +1,226 @@
+/* ============================================================
+   Checkout layout
+   ============================================================ */
+
+.main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  width: 100%;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.75rem;
+}
+
+/* ============================================================
+   Item list
+   ============================================================ */
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.itemName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #111827;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.itemQty {
+  font-size: 0.875rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.itemPrice {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* ============================================================
+   Total
+   ============================================================ */
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================================
+   Empty state
+   ============================================================ */
+
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.emptyMessage {
+  font-size: 1.125rem;
+  color: #374151;
+  margin-bottom: 1.25rem;
+}
+
+.shopLink {
+  display: inline-block;
+  padding: 0.625rem 1.5rem;
+  background: #111827;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 150ms;
+}
+
+.shopLink:hover {
+  background: #1f2937;
+}
+
+/* ============================================================
+   Checkout button
+   ============================================================ */
+
+.checkoutButton {
+  display: block;
+  width: 100%;
+  padding: 0.875rem;
+  margin-bottom: 1rem;
+  background: #111827;
+  color: #ffffff;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+}
+
+.checkoutButton:hover {
+  background: #1f2937;
+}
+
+/* ============================================================
+   Continue shopping link
+   ============================================================ */
+
+.continueLink {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-decoration: underline;
+}
+
+.continueLink:hover {
+  color: #374151;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .item {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .itemName {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .itemQty {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+  }
+
+  .itemPrice {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+}
+
+/* ============================================================
+   Dark mode
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  .heading {
+    color: #f9fafb;
+  }
+
+  .item {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .itemName {
+    color: #f9fafb;
+  }
+
+  .itemPrice {
+    color: #f9fafb;
+  }
+
+  .total {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .emptyMessage {
+    color: #d1d5db;
+  }
+
+  .shopLink {
+    background: #374151;
+  }
+
+  .shopLink:hover {
+    background: #4b5563;
+  }
+}

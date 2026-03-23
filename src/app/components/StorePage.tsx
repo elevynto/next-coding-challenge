@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from '../page.module.css';
-import ItemCount from './ItemCount';
+import { useCart } from '../context/CartContext';
 import type { Product, ApiResponse } from '../types';
 
 const formatGBP = (amount: number) =>
@@ -14,12 +15,12 @@ function ProductCard({
   onAdd,
 }: {
   product: Product;
-  onAdd: (name: string) => void;
+  onAdd: (name: string, price: number) => void;
 }) {
   return (
     <button
       className={styles.card}
-      onClick={() => onAdd(product.name.uk)}
+      onClick={() => onAdd(product.name.uk, product.price.gbp)}
       aria-label={`Add ${product.name.uk} to basket`}
     >
       <span className={styles.cardTitle}>{product.name.uk}</span>
@@ -29,7 +30,7 @@ function ProductCard({
 }
 
 export default function StorePage({ products }: { products: Product[] }) {
-  const [items, setItems] = useState<{ name: string; quantity: number }[]>([]);
+  const { items, addToCart } = useCart();
   const [moreProducts, setMoreProducts] = useState<Product[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const [moreError, setMoreError] = useState(false);
@@ -51,36 +52,16 @@ export default function StorePage({ products }: { products: Product[] }) {
       .finally(() => setIsLoadingMore(false));
   }, []);
 
-  const addToCart = (productName: string) => {
-    setItems(prev => {
-      const alreadyInCart = prev.find(item => item.name === productName);
-      if (alreadyInCart) {
-        return prev.map(item =>
-          item.name === productName ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prev, { name: productName, quantity: 1 }];
-    });
-  };
-
   return (
     <>
       <header className={styles.header}>
         <h1 className={styles.storeName}>Michael&apos;s Amazing Web Store</h1>
-        <div className={styles.basketArea}>
-          <button className={styles.basketButton}>
-            Basket: {items.length} {items.length === 1 ? 'item' : 'items'}
-          </button>
-          {items.length > 0 && (
-            <ul className={styles.basketList}>
-              {items.map(item => (
-                <li key={item.name}>
-                  <ItemCount name={item.name} count={item.quantity} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <Link
+          href="/checkout"
+          className={styles.basketButton}
+        >
+          Basket: {items.length} {items.length === 1 ? 'item' : 'items'}
+        </Link>
       </header>
       <main className={styles.main}>
         <section aria-label="Products">
