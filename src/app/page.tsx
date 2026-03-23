@@ -1,65 +1,29 @@
-'use client';
-import { useState } from 'react';
-import styles from './page.module.css';
-import ItemCount from './components/ItemCount';
+import StorePage from './components/StorePage';
+import type { ApiResponse } from './types';
 
-const products = [
-  { name: 'Item 1', description: 'Foo' },
-  { name: 'Item 2', description: 'Bar' },
-  { name: 'Item 3', description: 'Baz' },
-  { name: 'Item 4', description: 'Qux' },
-];
+export default async function Home() {
+  let data: ApiResponse | null = null;
 
-export default function Home() {
-  const [items, setItems] = useState<{ name: string; quantity: number }[]>([]);
+  try {
+    const res = await fetch('https://v0-api-endpoint-request.vercel.app/api/products', {
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error(`API responded with ${res.status}`);
+    data = await res.json() as ApiResponse;
+  } catch {
+    // Handled below
+  }
 
-  const addToCart = (product: string) => {
-    const alreadyInCart = items.find(item => item.name === product);
-    if (alreadyInCart) {
-      setItems(items.map(item =>
-        item.name === product ? { ...item, quantity: item.quantity + 1 } : item
-      ));
-    } else {
-      setItems([...items, { name: product, quantity: 1 }]);
-    }
-  };
-
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.storeName}>Michael&apos;s Amazing Web Store</h1>
-        <div className={styles.basketArea}>
-          <button className={styles.basketButton}>
-            Basket: {items.length} {items.length === 1 ? 'item' : 'items'}
-          </button>
-          {items.length > 0 && (
-            <ul className={styles.basketList}>
-              {items.map(item => (
-                <li key={item.name}>
-                  <ItemCount name={item.name} count={item.quantity} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </header>
-      <main className={styles.main}>
-        <section aria-label="Products">
-          <div className={styles.grid}>
-            {products.map(product => (
-              <button
-                key={product.name}
-                className={styles.card}
-                onClick={() => addToCart(product.name)}
-                aria-label={`Add ${product.name} to basket`}
-              >
-                <span className={styles.cardTitle}>{product.name}</span>
-                <span className={styles.cardDescription}>{product.description}</span>
-              </button>
-            ))}
-          </div>
-        </section>
+  if (!data?.success || !data.products?.length) {
+    return (
+      <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+        <h1>Michael&apos;s Amazing Web Store</h1>
+        <p style={{ marginTop: '1rem', color: '#6b7280' }}>
+          Sorry, we couldn&apos;t load our products right now. Please try again later.
+        </p>
       </main>
-    </>
-  );
+    );
+  }
+
+  return <StorePage products={data.products} />;
 }
