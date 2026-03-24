@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { ApiResponse } from '../../types';
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
     if (!res.ok) {
       return NextResponse.json({ success: false, products: [] }, { status: res.status });
     }
-    const data = await res.json();
+    const data = await res.json() as ApiResponse;
     return NextResponse.json(data);
   } catch {
     return NextResponse.json({ success: false, products: [] }, { status: 500 });

@@ -1,12 +1,23 @@
 'use client';
-import { useState, useEffect } from 'react';
+import useSWR from 'swr';
 import Link from 'next/link';
 import styles from '../page.module.css';
 import { useCart } from '../context/CartContext';
 import type { Product, ApiResponse } from '../types';
 import type { LocaleConfig } from '../config/locales';
 
+const PRODUCTS_URL = 'https://v0-api-endpoint-request.vercel.app/api/products';
+const MORE_PRODUCTS_URL = '/api/more-products';
 const SKELETON_COUNT = 3;
+const DEDUPING_INTERVAL = 60_000;
+
+async function fetcher(url: string): Promise<Product[]> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`API responded with ${res.status}`);
+  const data = await res.json() as ApiResponse;
+  if (!data.success || !data.products?.length) throw new Error('No products returned');
+  return data.products;
+}
 
 function formatPrice(amount: number, locale: LocaleConfig) {
   return new Intl.NumberFormat(locale.localeCode, {
@@ -46,26 +57,19 @@ export default function StorePage({
   locale: LocaleConfig;
 }) {
   const { items, addToCart } = useCart();
-  const [moreProducts, setMoreProducts] = useState<Product[]>([]);
-  const [isLoadingMore, setIsLoadingMore] = useState(true);
-  const [moreError, setMoreError] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/more-products')
-      .then(res => {
-        if (!res.ok) throw new Error(`API responded with ${res.status}`);
-        return res.json() as Promise<ApiResponse>;
-      })
-      .then(data => {
-        if (data.success && data.products?.length) {
-          setMoreProducts(data.products);
-        } else {
-          setMoreError(true);
-        }
-      })
-      .catch(() => setMoreError(true))
-      .finally(() => setIsLoadingMore(false));
-  }, []);
+  const { data: displayProducts = products } = useSWR<Product[]>(PRODUCTS_URL, fetcher, {
+    fallbackData: products,
+    dedupingInterval: DEDUPING_INTERVAL,
+  });
+
+  const {
+    data: moreProducts,
+    isLoading: isLoadingMore,
+    error: moreError,
+  } = useSWR<Product[]>(MORE_PRODUCTS_URL, fetcher, {
+    dedupingInterval: DEDUPING_INTERVAL,
+  });
 
   return (
     <>
@@ -78,7 +82,7 @@ export default function StorePage({
       <main className={styles.main}>
         <section aria-label="Products">
           <div className={styles.grid}>
-            {products.map(product => (
+            {displayProducts.map(product => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -98,7 +102,7 @@ export default function StorePage({
                 ))
               : moreError
                 ? <p className={styles.loadError}>More products couldn&apos;t be loaded right now.</p>
-                : moreProducts.map(product => (
+                : (moreProducts ?? []).map(product => (
                     <ProductCard
                       key={product.id}
                       product={product}
