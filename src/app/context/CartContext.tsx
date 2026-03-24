@@ -10,6 +10,7 @@ export interface CartItem {
 interface CartContextValue {
   items: CartItem[];
   addToCart: (name: string, price: number) => void;
+  removeFromCart: (name: string) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -35,8 +36,16 @@ export function CartProvider({
     });
   };
 
+  const removeFromCart = (name: string) => {
+    setItems(prev =>
+      prev
+        .map(item => item.name === name ? { ...item, quantity: item.quantity - 1 } : item)
+        .filter(item => item.quantity > 0)
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ items, addToCart }}>
+    <CartContext.Provider value={{ items, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

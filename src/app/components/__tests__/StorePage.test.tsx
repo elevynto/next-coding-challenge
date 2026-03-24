@@ -146,7 +146,7 @@ describe('StorePage — More products section', () => {
       url.includes('more-products')
         ? Promise.resolve({ ok: true, json: () => Promise.resolve({ success: true, products: moreProductsMock }) } as Response)
         : new Promise(() => {})
-    );
+    ) as jest.Mock; 
     renderWithFreshCache();
 
     expect(await screen.findByRole('button', { name: 'Add Bluetooth Speaker to basket' })).toBeInTheDocument();
