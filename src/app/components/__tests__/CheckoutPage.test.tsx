@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { CartProvider } from '@/app/context/CartContext';
 import type { CartItem } from '@/app/context/CartContext';
 import CheckoutPage from '@/app/components/CheckoutPage';
-import { locales } from '@/app/config/locales';
+import { locales } from '@/lib/locales';
 
 function renderCheckout(initialItems: CartItem[] = []) {
   return render(

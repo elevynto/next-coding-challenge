@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CartProvider } from '@/app/context/CartContext';
 import StorePage from '@/app/components/StorePage';
-import type { Product } from '@/app/types';
-import { locales } from '@/app/config/locales';
+import type { Product } from '@/types';
+import { locales } from '@/lib/locales';
 
 const mockProducts: Product[] = [
   { id: 1, name: { us: 'Wireless Headphones', uk: 'Wireless Headsets' }, price: { usd: 99.99, gbp: 76.99 }, stock: 45 },
@@ -18,7 +18,7 @@ function renderStorePage() {
 }
 
 beforeEach(() => {
-  // Prevent the more-products useEffect fetch from resolving during these cart tests
+  // Prevent SWR fetches from resolving during these cart tests
   global.fetch = jest.fn().mockReturnValue(new Promise(() => {}));
 });
 

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import StorePage from '../components/StorePage';
-import { getLocale } from '../config/locales';
-import type { ApiResponse } from '../types';
+import { getLocale } from '@/lib/locales';
+import { fetchProducts } from '@/lib/api';
 
 export default async function LocaleHome({
   params,
@@ -11,19 +11,9 @@ export default async function LocaleHome({
   const locale = getLocale(params.locale);
   if (!locale) notFound();
 
-  let data: ApiResponse | null = null;
+  const products = await fetchProducts();
 
-  try {
-    const res = await fetch('https://v0-api-endpoint-request.vercel.app/api/products', {
-      cache: 'no-store',
-    });
-    if (!res.ok) throw new Error(`API responded with ${res.status}`);
-    data = await res.json() as ApiResponse;
-  } catch {
-    // Handled below
-  }
-
-  if (!data?.success || !data.products?.length) {
+  if (!products) {
     return (
       <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
         <h1>Michael&apos;s Amazing Web Store</h1>
@@ -34,5 +24,5 @@ export default async function LocaleHome({
     );
   }
 
-  return <StorePage products={data.products} locale={locale} />;
+  return <StorePage products={products} locale={locale} />;
 }

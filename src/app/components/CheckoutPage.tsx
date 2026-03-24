@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from '../checkout/checkout.module.css';
 import headerStyles from '../page.module.css';
 import { useCart } from '../context/CartContext';
-import type { LocaleConfig } from '../config/locales';
+import type { LocaleConfig } from '@/lib/locales';
 
 function formatPrice(amount: number, locale: LocaleConfig) {
   return new Intl.NumberFormat(locale.localeCode, {

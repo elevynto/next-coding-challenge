@@ -53,6 +53,11 @@ export const locales: Record<string, LocaleConfig> = {
   },
 };
 
+// Only locale keys listed here are accessible via the [locale] URL segment.
+// 'uk' is intentionally excluded — the UK store is served at / and /checkout.
+const ROUTE_LOCALES = ['us'];
+
 export function getLocale(key: string): LocaleConfig | null {
+  if (!ROUTE_LOCALES.includes(key)) return null;
   return locales[key] ?? null;
 }

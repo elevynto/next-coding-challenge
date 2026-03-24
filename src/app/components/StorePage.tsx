@@ -3,13 +3,13 @@ import useSWR from 'swr';
 import Link from 'next/link';
 import styles from '../page.module.css';
 import { useCart } from '../context/CartContext';
-import type { Product, ApiResponse } from '../types';
-import type { LocaleConfig } from '../config/locales';
+import type { Product, ApiResponse } from '@/types';
+import type { LocaleConfig } from '@/lib/locales';
 
 const PRODUCTS_URL = 'https://v0-api-endpoint-request.vercel.app/api/products';
 const MORE_PRODUCTS_URL = '/api/more-products';
 const SKELETON_COUNT = 3;
-const DEDUPING_INTERVAL = 60_000;
+const DEDUPING_INTERVAL = 60_000 * 15; 
 
 async function fetcher(url: string): Promise<Product[]> {
   const res = await fetch(url);

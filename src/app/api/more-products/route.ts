@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { ApiResponse } from '../../types';
+import type { ApiResponse } from '@/types';
 
 export async function GET() {
   try {

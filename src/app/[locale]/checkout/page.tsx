@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import CheckoutPage from '../../components/CheckoutPage';
-import { getLocale } from '../../config/locales';
+import { getLocale } from '@/lib/locales';
 
 export default function LocaleCheckout({
   params,

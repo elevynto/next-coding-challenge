@@ -1,5 +1,5 @@
 import CheckoutPage from '../components/CheckoutPage';
-import { locales } from '../config/locales';
+import { locales } from '@/lib/locales';
 
 export default function Page() {
   return <CheckoutPage locale={locales.uk} />;
