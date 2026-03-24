@@ -46,7 +46,7 @@ describe('StorePage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' }));
     fireEvent.click(screen.getByRole('button', { name: 'Add Fitness Tracker to basket' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Add Fitness Tracker to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add one more Fitness Tracker to basket' }));
 
     expect(screen.getByRole('link', { name: /Basket:/i })).toHaveTextContent('Basket: 2 items');
   });

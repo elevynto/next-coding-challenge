@@ -30,27 +30,49 @@ function ProductCard({
   product,
   locale,
   onAdd,
+  onDecrement,
   quantity,
 }: {
   product: Product;
   locale: LocaleConfig;
   onAdd: (name: string, price: number) => void;
+  onDecrement: (name: string) => void;
   quantity: number;
 }) {
   const name = product.name[locale.nameKey];
   const price = product.price[locale.priceKey];
+  const isInCart = quantity > 0;
   return (
-    <button
-      className={styles.card}
-      onClick={() => onAdd(name, price)}
-      aria-label={`Add ${name} to ${locale.labels.addToLabel}`}
+    <div
+      className={`${styles.card}${isInCart ? ` ${styles.cardInCart}` : ''}`}
+      {...(!isInCart && {
+        onClick: () => onAdd(name, price),
+        role: 'button',
+        tabIndex: 0,
+        onKeyDown: (e: { key: string }) => { if (e.key === 'Enter' || e.key === ' ') onAdd(name, price); },
+        'aria-label': `Add ${name} to ${locale.labels.addToLabel}`,
+      })}
     >
       <span className={styles.cardTitle}>{name}</span>
       <div className={styles.cardFooter}>
         <span className={styles.cardDescription}>{formatPrice(price, locale)}</span>
-        {quantity > 0 && <span className={styles.cardQty}>Qty: {quantity}</span>}
+        {quantity > 0 && (
+          <div className={styles.qtyControls}>
+            <button
+              className={styles.qtyBtn}
+              onClick={(e) => { e.stopPropagation(); onDecrement(name); }}
+              aria-label={`Remove one ${name} from ${locale.labels.addToLabel}`}
+            >−</button>
+            <span className={styles.cardQty}>Qty: {quantity}</span>
+            <button
+              className={styles.qtyBtn}
+              onClick={(e) => { e.stopPropagation(); onAdd(name, price); }}
+              aria-label={`Add one more ${name} to ${locale.labels.addToLabel}`}
+            >+</button>
+          </div>
+        )}
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -61,7 +83,7 @@ export default function StorePage({
   products: Product[];
   locale: LocaleConfig;
 }) {
-  const { items, addToCart } = useCart();
+  const { items, addToCart, removeFromCart } = useCart();
 
   const { data: displayProducts = products } = useSWR<Product[]>(PRODUCTS_URL, fetcher, {
     fallbackData: products,
@@ -93,6 +115,7 @@ export default function StorePage({
                 product={product}
                 locale={locale}
                 onAdd={addToCart}
+                onDecrement={removeFromCart}
                 quantity={items.find(item => item.name === product.name[locale.nameKey])?.quantity ?? 0}
               />
             ))}
@@ -114,6 +137,7 @@ export default function StorePage({
                       product={product}
                       locale={locale}
                       onAdd={addToCart}
+                      onDecrement={removeFromCart}
                       quantity={items.find(item => item.name === product.name[locale.nameKey])?.quantity ?? 0}
                     />
                   ))

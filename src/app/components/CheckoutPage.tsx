@@ -13,9 +13,10 @@ function formatPrice(amount: number, locale: LocaleConfig) {
 }
 
 export default function CheckoutPage({ locale }: { locale: LocaleConfig }) {
-  const { items } = useCart();
+  const { items, addToCart, removeFromCart } = useCart();
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
@@ -47,14 +48,27 @@ export default function CheckoutPage({ locale }: { locale: LocaleConfig }) {
               {items.map(item => (
                 <li key={item.name} className={styles.item}>
                   <span className={styles.itemName}>{item.name}</span>
-                  <span className={styles.itemQty}>Qty: {item.quantity}</span>
+                  <div className={styles.qtyControls}>
+                    <button
+                      className={styles.qtyBtn}
+                      onClick={() => removeFromCart(item.name)}
+                      aria-label={`Remove one ${item.name} from ${locale.labels.addToLabel}`}
+                    >−</button>
+                    <span className={styles.itemQty}>Qty: {item.quantity}</span>
+                    <button
+                      className={styles.qtyBtn}
+                      onClick={() => addToCart(item.name, item.price)}
+                      aria-label={`Add one more ${item.name} to ${locale.labels.addToLabel}`}
+                    >+</button>
+                  </div>
                   <span className={styles.itemPrice}>{formatPrice(item.price * item.quantity, locale)}</span>
                 </li>
               ))}
             </ul>
             <div className={styles.total}>
-              <span>Total items</span>
-              <span>{totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</span>
+              <span>Total</span>
+              <span className={styles.totalCount}>{totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</span>
+              <span className={styles.totalPrice}>{formatPrice(totalPrice, locale)}</span>
             </div>
             <button className={styles.checkoutButton} aria-label="Proceed to checkout">
               Checkout

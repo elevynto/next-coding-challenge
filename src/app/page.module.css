@@ -107,31 +107,69 @@
   transform: translateY(0);
 }
 
+.cardInCart {
+  cursor: default;
+}
+
+.cardInCart:hover {
+  border-color: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transform: none;
+}
+
 .cardTitle {
   font-size: 1rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .cardFooter {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   min-height: 1.5rem;
 }
 
 .cardDescription {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ca3af;
   line-height: 1.5;
 }
 
 .cardQty {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #6b7280;
+  color: #9ca3af;
+}
+
+.qtyControls {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.qtyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: background 150ms, border-color 150ms;
+}
+
+.qtyBtn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
 }
 
 /* ============================================================
@@ -166,7 +204,7 @@
 
 .loadError {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ca3af;
 }
 
 /* ============================================================
@@ -223,6 +261,17 @@
 
   .cardQty {
     color: #9ca3af;
+  }
+
+  .qtyBtn {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .qtyBtn:hover {
+    background: #4b5563;
+    border-color: #6b7280;
   }
 
   .moreSection {
