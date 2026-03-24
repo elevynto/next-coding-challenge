@@ -3,13 +3,14 @@ import useSWR from 'swr';
 import Link from 'next/link';
 import styles from '../page.module.css';
 import { useCart } from '../context/CartContext';
+import { PRODUCTS_URL } from '@/lib/api';
+import { formatPrice } from '@/lib/formatPrice';
 import type { Product, ApiResponse } from '@/types';
 import type { LocaleConfig } from '@/lib/locales';
 
-const PRODUCTS_URL = 'https://v0-api-endpoint-request.vercel.app/api/products';
 const MORE_PRODUCTS_URL = '/api/more-products';
 const SKELETON_COUNT = 3;
-const DEDUPING_INTERVAL = 60_000 * 15; 
+const DEDUPING_INTERVAL = 60_000 * 15;
 
 async function fetcher(url: string): Promise<Product[]> {
   const res = await fetch(url);
@@ -17,13 +18,6 @@ async function fetcher(url: string): Promise<Product[]> {
   const data = await res.json() as ApiResponse;
   if (!data.success || !data.products?.length) throw new Error('No products returned');
   return data.products;
-}
-
-function formatPrice(amount: number, locale: LocaleConfig) {
-  return new Intl.NumberFormat(locale.localeCode, {
-    style: 'currency',
-    currency: locale.currency,
-  }).format(amount);
 }
 
 function ProductCard({

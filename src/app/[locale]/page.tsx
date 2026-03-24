@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import StorePage from '../components/StorePage';
+import StorePage from '@/app/components/StorePage';
+import ProductsError from '@/app/components/ProductsError';
 import { getLocale } from '@/lib/locales';
 import { fetchProducts } from '@/lib/api';
 
@@ -13,16 +14,7 @@ export default async function LocaleHome({
 
   const products = await fetchProducts();
 
-  if (!products) {
-    return (
-      <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-        <h1>Michael&apos;s Amazing Web Store</h1>
-        <p style={{ marginTop: '1rem', color: '#6b7280' }}>
-          Sorry, we couldn&apos;t load our products right now. Please try again later.
-        </p>
-      </main>
-    );
-  }
+  if (!products) return <ProductsError />;
 
   return <StorePage products={products} locale={locale} />;
 }

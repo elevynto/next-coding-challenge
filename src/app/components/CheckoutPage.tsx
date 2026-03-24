@@ -3,14 +3,8 @@ import Link from 'next/link';
 import styles from '../checkout/checkout.module.css';
 import headerStyles from '../page.module.css';
 import { useCart } from '../context/CartContext';
+import { formatPrice } from '@/lib/formatPrice';
 import type { LocaleConfig } from '@/lib/locales';
-
-function formatPrice(amount: number, locale: LocaleConfig) {
-  return new Intl.NumberFormat(locale.localeCode, {
-    style: 'currency',
-    currency: locale.currency,
-  }).format(amount);
-}
 
 export default function CheckoutPage({ locale }: { locale: LocaleConfig }) {
   const { items, addToCart, removeFromCart } = useCart();
