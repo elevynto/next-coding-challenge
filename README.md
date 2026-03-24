@@ -1,43 +1,8 @@
-# Michael's Amazing Web Store
+# Michael's Amazing Web Store Improved
 
-A Next.js ecommerce storefront built with TypeScript, featuring multi-region support, live product data, and a fully accessible UI.
+### View Deployment here
 
----
 
-## Setup
-
-- Node 20+
-- Clone the repo and install dependencies:
-
-```bash
-npm install
-npm run dev     # http://localhost:3000
-```
-
----
-
-## Scripts
-
-- `npm run dev` — start the development server
-- `npm run build` — production build
-- `npm run lint` — ESLint via Next.js
-- `npm test` — run all Jest tests
-
----
-
-## Architecture
-
-Next.js 13 App Router with TypeScript. All source lives under `src/`.
-
-- **`src/app/`** — pages and layouts (App Router)
-- **`src/app/components/`** — shared UI components (`StorePage`, `CheckoutPage`, `ProductsError`)
-- **`src/app/context/`** — cart state via React Context
-- **`src/lib/`** — shared utilities (`api.ts`, `locales.ts`, `formatPrice.ts`)
-- **`src/types.ts`** — TypeScript interfaces for API contracts
-
-The UK store is served at `/` and `/checkout`. The US store is served at `/us` and `/us/checkout` via a dynamic `[locale]` route segment. Adding a new region requires a single entry in `src/lib/locales.ts`.
-
-Cart state is managed client-side with React Context. Products are fetched server-side for the initial render, then kept fresh client-side via SWR.
 
 ---
 
@@ -81,6 +46,20 @@ Cart state is managed client-side with React Context. Products are fetched serve
 - Extracted reusable components, a shared `formatPrice` utility, and a centralised locale config
 - Consistent `@/` import alias used throughout
 - 27 tests covering key user journeys, locale variants, quantity controls, and async product loading states
+
+### Architecture
+
+Next.js 13 App Router with TypeScript. All source lives under `src/`.
+
+- **`src/app/`** — pages and layouts (App Router)
+- **`src/app/components/`** — shared UI components (`StorePage`, `CheckoutPage`, `ProductsError`)
+- **`src/app/context/`** — cart state via React Context
+- **`src/lib/`** — shared utilities (`api.ts`, `locales.ts`, `formatPrice.ts`)
+- **`src/types.ts`** — TypeScript interfaces for API contracts
+
+The UK store is served at `/` and `/checkout`. The US store is served at `/us` and `/us/checkout` via a dynamic `[locale]` route segment. Adding a new region requires a single entry in `src/lib/locales.ts`.
+
+Cart state is managed client-side with React Context. Products are fetched server-side for the initial render, then kept fresh client-side via SWR.
 
 ---
 
