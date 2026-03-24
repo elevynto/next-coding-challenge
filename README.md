@@ -1,8 +1,8 @@
 # Michael's Amazing Web Store Improved
 
-### View Deployment here
+### View deployment here
 
-
+[https://next-coding-challenge-green.vercel.app](https://next-coding-challenge-green.vercel.app/)
 
 ---
 
@@ -83,6 +83,7 @@ Cart state is managed client-side with React Context. Products are fetched serve
 - Promo / discount code input
 - Order confirmation / thank-you page after a successful purchase
 - Trust signals — secure payment icons and a returns policy summary near the checkout button
+- Have a delete button for each item
 
 ### Cart & retention
 - Persist the cart to `localStorage` so it survives a page refresh or accidental tab close
@@ -101,3 +102,6 @@ Cart state is managed client-side with React Context. Products are fetched serve
 - Per-product meta tags and Open Graph images so product links share well on social media
 - Structured data (schema.org `Product` markup) for rich results in search engines
 - Cookie consent banner for GDPR / CCPA compliance
+
+### Backend Improvements
+- The `more-products` endpoint returns some of the same products as the other endpoint. The presumption was made that usually these would be different sets of products. (The only reason I bring this up is because the Qty value/controls that have been built will show up on the other duplicate product when you click on one of them which looks odd. A backend change would be required to fix this)
