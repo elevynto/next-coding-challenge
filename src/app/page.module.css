@@ -114,10 +114,24 @@
   margin-bottom: 0.5rem;
 }
 
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 1.5rem;
+}
+
 .cardDescription {
   font-size: 0.875rem;
   color: #6b7280;
   line-height: 1.5;
+}
+
+.cardQty {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
 }
 
 /* ============================================================
@@ -204,6 +218,10 @@
   }
 
   .cardDescription {
+    color: #9ca3af;
+  }
+
+  .cardQty {
     color: #9ca3af;
   }
 

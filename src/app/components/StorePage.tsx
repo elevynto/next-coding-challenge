@@ -30,10 +30,12 @@ function ProductCard({
   product,
   locale,
   onAdd,
+  quantity,
 }: {
   product: Product;
   locale: LocaleConfig;
   onAdd: (name: string, price: number) => void;
+  quantity: number;
 }) {
   const name = product.name[locale.nameKey];
   const price = product.price[locale.priceKey];
@@ -44,7 +46,10 @@ function ProductCard({
       aria-label={`Add ${name} to ${locale.labels.addToLabel}`}
     >
       <span className={styles.cardTitle}>{name}</span>
-      <span className={styles.cardDescription}>{formatPrice(price, locale)}</span>
+      <div className={styles.cardFooter}>
+        <span className={styles.cardDescription}>{formatPrice(price, locale)}</span>
+        {quantity > 0 && <span className={styles.cardQty}>Qty: {quantity}</span>}
+      </div>
     </button>
   );
 }
@@ -88,6 +93,7 @@ export default function StorePage({
                 product={product}
                 locale={locale}
                 onAdd={addToCart}
+                quantity={items.find(item => item.name === product.name[locale.nameKey])?.quantity ?? 0}
               />
             ))}
           </div>
@@ -108,6 +114,7 @@ export default function StorePage({
                       product={product}
                       locale={locale}
                       onAdd={addToCart}
+                      quantity={items.find(item => item.name === product.name[locale.nameKey])?.quantity ?? 0}
                     />
                   ))
             }
