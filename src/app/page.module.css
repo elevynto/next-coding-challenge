@@ -89,7 +89,7 @@
   cursor: pointer;
   padding: 1.5rem;
   background: #ffffff;
-  border: 1px solid #6b7280;
+  border: 1px solid #595e6a;
   border-radius: 10px;
   font-family: inherit;
   text-align: left;
@@ -112,7 +112,7 @@
 }
 
 .cardInCart:hover {
-  border-color: #6b7280;
+  border-color: #595e6a;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   transform: none;
 }
@@ -134,14 +134,14 @@
 
 .cardDescription {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #595e6a;
   line-height: 1.5;
 }
 
 .cardQty {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #6b7280;
+  color: #595e6a;
 }
 
 .qtyControls {
@@ -156,7 +156,7 @@
   justify-content: center;
   width: 1.5rem;
   height: 1.5rem;
-  border: 1px solid #6b7280;
+  border: 1px solid #595e6a;
   border-radius: 4px;
   background: #ffffff;
   font-size: 1rem;
@@ -191,7 +191,7 @@
 
 .skeleton {
   border-radius: 10px;
-  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background: linear-gradient(90deg, #e5e7eb 25%, #d1d5db 50%, #e5e7eb 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
   min-height: 96px;
@@ -204,7 +204,7 @@
 
 .loadError {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #595e6a;
 }
 
 /* ============================================================
@@ -247,7 +247,7 @@
   }
 
   .card:hover {
-    border-color: #6b7280;
+    border-color: #98a1b3;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 
@@ -256,11 +256,11 @@
   }
 
   .cardDescription {
-    color: #9ca3af;
+    color: #a5acb8;
   }
 
   .cardQty {
-    color: #9ca3af;
+    color: #a5acb8;
   }
 
   .qtyBtn {
@@ -271,7 +271,7 @@
 
   .qtyBtn:hover {
     background: #4b5563;
-    border-color: #6b7280;
+    border-color: #98a1b3;
   }
 
   .moreSection {

@@ -55,13 +55,13 @@ function ProductCard({
             <button
               className={styles.qtyBtn}
               onClick={(e) => { e.stopPropagation(); onDecrement(name); }}
-              aria-label={`Remove one ${name} from ${locale.labels.addToLabel}`}
+              aria-label={`- Remove one ${name} from ${locale.labels.addToLabel}`}
             >−</button>
             <span className={styles.cardQty}>Qty: {quantity}</span>
             <button
               className={styles.qtyBtn}
               onClick={(e) => { e.stopPropagation(); onAdd(name, price); }}
-              aria-label={`Add one more ${name} to ${locale.labels.addToLabel}`}
+              aria-label={`+ Add one more ${name} to ${locale.labels.addToLabel}`}
             >+</button>
           </div>
         )}

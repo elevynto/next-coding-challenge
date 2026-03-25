@@ -46,13 +46,13 @@ export default function CheckoutPage({ locale }: { locale: LocaleConfig }) {
                     <button
                       className={styles.qtyBtn}
                       onClick={() => removeFromCart(item.name)}
-                      aria-label={`Remove one ${item.name} from ${locale.labels.addToLabel}`}
+                      aria-label={`- Remove one ${item.name} from ${locale.labels.addToLabel}`}
                     >−</button>
                     <span className={styles.itemQty}>Qty: {item.quantity}</span>
                     <button
                       className={styles.qtyBtn}
                       onClick={() => addToCart(item.name, item.price)}
-                      aria-label={`Add one more ${item.name} to ${locale.labels.addToLabel}`}
+                      aria-label={`+ Add one more ${item.name} to ${locale.labels.addToLabel}`}
                     >+</button>
                   </div>
                   <span className={styles.itemPrice}>{formatPrice(item.price * item.quantity, locale)}</span>
