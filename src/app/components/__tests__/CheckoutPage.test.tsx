@@ -104,7 +104,7 @@ describe('CheckoutPage — qty controls', () => {
   it('incrementing an item updates its quantity display', () => {
     renderCheckout([{ name: 'Wireless Headsets', quantity: 1, price: 76.99 }]);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Add one more Wireless Headsets to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '+ Add one more Wireless Headsets to basket' }));
 
     expect(screen.getByText('Qty: 2')).toBeInTheDocument();
   });
@@ -115,7 +115,7 @@ describe('CheckoutPage — qty controls', () => {
       { name: 'Fitness Tracker', quantity: 1, price: 154.99 },
     ]);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Remove one Wireless Headsets from basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '- Remove one Wireless Headsets from basket' }));
 
     expect(screen.queryByText('Wireless Headsets')).not.toBeInTheDocument();
     expect(screen.getByText('Fitness Tracker')).toBeInTheDocument();
@@ -125,7 +125,7 @@ describe('CheckoutPage — qty controls', () => {
   it('removing the last item shows the empty state', () => {
     renderCheckout([{ name: 'Wireless Headsets', quantity: 1, price: 76.99 }]);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Remove one Wireless Headsets from basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '- Remove one Wireless Headsets from basket' }));
 
     expect(screen.getByText(/your basket is empty/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /continue shopping/i })).toHaveAttribute('href', '/');

@@ -51,7 +51,7 @@ describe('StorePage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' }));
     fireEvent.click(screen.getByRole('button', { name: 'Add Fitness Tracker to basket' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Add one more Fitness Tracker to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '+ Add one more Fitness Tracker to basket' }));
 
     expect(screen.getByRole('link', { name: /Basket:/i })).toHaveTextContent('Basket: 2 items');
   });
@@ -87,8 +87,8 @@ describe('StorePage — ProductCard qty controls', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' }));
 
     expect(screen.queryByRole('button', { name: 'Add Wireless Headsets to basket' })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Remove one Wireless Headsets from basket' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Add one more Wireless Headsets to basket' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '- Remove one Wireless Headsets from basket' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '+ Add one more Wireless Headsets to basket' })).toBeInTheDocument();
     expect(screen.getByText('Qty: 1')).toBeInTheDocument();
   });
 
@@ -96,7 +96,7 @@ describe('StorePage — ProductCard qty controls', () => {
     renderStorePage();
 
     fireEvent.click(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Add one more Wireless Headsets to basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '+ Add one more Wireless Headsets to basket' }));
 
     expect(screen.getByText('Qty: 2')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Basket:/i })).toHaveTextContent('Basket: 1 item');
@@ -106,10 +106,10 @@ describe('StorePage — ProductCard qty controls', () => {
     renderStorePage();
 
     fireEvent.click(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Remove one Wireless Headsets from basket' }));
+    fireEvent.click(screen.getByRole('button', { name: '- Remove one Wireless Headsets from basket' }));
 
     expect(screen.getByRole('button', { name: 'Add Wireless Headsets to basket' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Remove one Wireless Headsets from basket' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '- Remove one Wireless Headsets from basket' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Basket:/i })).toHaveTextContent('Basket: 0 items');
   });
 });
