@@ -45,7 +45,16 @@
 - Replaced hardcoded product blocks with a live API and `array.map`
 - Extracted reusable components, a shared `formatPrice` utility, and a centralised locale config
 - Consistent `@/` import alias used throughout
-- 27 tests covering key user journeys, locale variants, quantity controls, and async product loading states
+- 50 tests covering key user journeys, locale variants, quantity controls, and async product loading states
+
+### CI/CD & deployment
+- GitHub Actions workflow triggers on every push to `main` — installs dependencies, runs the full test suite, and blocks the deploy if any test fails
+- Automated deployment to Vercel on a successful test run, keeping the live site always in sync with `main`
+- Node.js 20 with npm caching for fast CI runs
+
+### Git workflow
+- Husky git hooks enforce quality gates locally before a commit lands: the full test suite must pass (`pre-commit`) and the commit message must follow Conventional Commits format (`commit-msg`)
+- commitlint with `@commitlint/config-conventional` ensures a clean, machine-readable commit history (e.g. `feat:`, `fix:`, `chore:`)
 
 ### Architecture
 
@@ -64,6 +73,17 @@ Cart state is managed client-side with React Context. Products are fetched serve
 ---
 
 ## Further improvements
+
+### Engineering & tooling
+- **lint-staged** — scope the pre-commit hook to only lint and test files staged for the current commit, making local commits significantly faster on large codebases
+- **Code coverage thresholds** — add `--coverage` to the Jest script and enforce a minimum threshold (e.g. 80%) in CI so coverage regressions fail the build automatically
+- **Type-checking in CI** — add a dedicated `tsc --noEmit` step so TypeScript errors are surfaced independently of the build, with clearer error output
+- **CI on pull requests** — the current workflow only triggers on pushes to `main`; adding a `pull_request` trigger would catch failures before merge rather than after
+- **Prettier** — enforced, auto-formatted code style would eliminate formatting debates in code review and keep diffs focused on logic changes
+- **End-to-end tests** — Playwright or Cypress for testing full user journeys (add to basket → checkout → confirm) in a real browser, complementing the unit/integration tests already in place
+- **Lighthouse CI** — automated performance, accessibility, and SEO scoring on every deploy to catch regressions introduced by new features
+- **Dependabot** — automated pull requests for dependency updates, keeping security patches applied without manual effort
+- **Bundle analysis** — `@next/bundle-analyzer` to track and visualise client-side JS weight over time
 
 ### Product discovery
 - Product detail page — clicking a card should navigate to `/products/[id]` with full description, images, and variant options
