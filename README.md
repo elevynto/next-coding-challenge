@@ -21,6 +21,7 @@
 - Every interactive element has a descriptive `aria-label` naming the specific product and action (e.g. "Add Wireless Headphones to basket")
 - Semantic HTML throughout — landmarks, headings, and correct button roles
 - Dark mode support across all components
+- Full-viewport-height layout — the page fills the screen on all content lengths, avoiding a blank gap below short product lists
 - No horizontal scroll at any viewport width
 
 ### Data & performance
@@ -84,6 +85,16 @@ Cart state is managed client-side with React Context. Products are fetched serve
 - **Lighthouse CI** — automated performance, accessibility, and SEO scoring on every deploy to catch regressions introduced by new features
 - **Dependabot** — automated pull requests for dependency updates, keeping security patches applied without manual effort
 - **Bundle analysis** — `@next/bundle-analyzer` to track and visualise client-side JS weight over time
+- **React Error Boundaries** — wrap the product grid and checkout sections in error boundaries so a rendering failure in one subtree doesn't crash the whole page (complements the existing `ProductsError` component, which only handles the API layer)
+- **Security headers** — add a `headers()` block in `next.config.js` to set `Content-Security-Policy`, `X-Frame-Options`, and `Strict-Transport-Security`; currently the app ships with no HTTP security headers
+
+### Analytics & observability
+
+- **Vercel Analytics** (`@vercel/analytics`) — drop-in `<Analytics />` component added to the root layout; tracks page views and unique visitors with zero configuration and no cookie consent requirement for basic metrics
+- **Vercel Speed Insights** (`@vercel/speed-insights`) — companion package that collects real-user Core Web Vitals (LCP, CLS, FID) broken down per route, surfaced directly in the Vercel dashboard
+- **Custom conversion events** — instrument key funnel actions (add to basket, begin checkout, remove item) with `track()` calls so drop-off rates can be measured and optimised over time
+- **Error monitoring** — integrate Sentry (or Vercel's built-in error tracking) to capture unhandled exceptions and failed API calls in production; the current setup has no runtime visibility into errors
+- **Session recording / heatmaps** — tools like Microsoft Clarity (free) or Hotjar to understand how users navigate the product grid and where they abandon the checkout flow
 
 ### Product discovery
 - Product detail page — clicking a card should navigate to `/products/[id]` with full description, images, and variant options
@@ -122,6 +133,8 @@ Cart state is managed client-side with React Context. Products are fetched serve
 - Per-product meta tags and Open Graph images so product links share well on social media
 - Structured data (schema.org `Product` markup) for rich results in search engines
 - Cookie consent banner for GDPR / CCPA compliance
+- `robots.txt` / `sitemap.xml` — Next.js 13 supports these as special files natively; currently absent, which limits search engine crawling and indexing
+- **PWA manifest** — a `manifest.json` so the store can be saved to the home screen on mobile with an app icon and a splash screen, giving it an app-like feel without a separate native build
 
 ### Backend Improvements
 - The `more-products` endpoint returns some of the same products as the other endpoint. The presumption was made that usually these would be different sets of products. (The only reason I bring this up is because the Qty value/controls that have been built will show up on the other duplicate product when you click on one of them which looks odd. A backend change would be required to fix this)
